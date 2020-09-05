@@ -89,6 +89,8 @@ console.log(typeof x)                                 // Displays undefined
 /***************************************************
  * Operator Precedence
  */
+
+/*
 var now = 2018
 var yearJohn = 1989
 var fullAge = 18
@@ -103,6 +105,7 @@ var ageMark = 35;
 var average = (ageJohn + ageMark) / 2;
 console.log(average);
 
+
 // Multiple Assignments
 var x, y;
 x =  y = (3 + 5) * 4 - 6;   // 8 * 4 - 6 // 32 - 6 // 26       // Assign the formula to both x and y at the same time
@@ -110,6 +113,8 @@ x =  y = (3 + 5) * 4 - 6;   // 8 * 4 - 6 // 32 - 6 // 26       // Assign the for
                                                                // So the formula is calculated 1st then = y, then x = y
                                                                // This is the = Associativity of the precedence table
 console.log(x , y);  // Still get a space between the two on the console log
+
+
 
 // More Operators
 // x = x * 2;   // 52
@@ -121,6 +126,22 @@ x++;          // 63 increments by 1
 console.log(x);
 x--;          // 62 decrements by 1
 console.log(x);
+*/
+
+/**********************************************************************
+ * Coding challenge 1
+*/
+var massMark, massJohn, bmiJohn, bmiMark, heightJohn, heightMark, isHigher;
+massJohn = 92;
+heightJohn = 1.95;
+massMark = 78;
+heightMark = 1.69;
+bmiJohn = massJohn / (heightJohn * heightJohn);
+bmiMark = massMark / (heightMark * heightMark);
+console.log(bmiMark, bmiJohn);
+isHigher = bmiMark > bmiJohn;
+console.log('Is Mark\'s BMI higher than John\'s? ' + isHigher);
+
 
 
 
