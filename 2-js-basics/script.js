@@ -409,6 +409,7 @@ console.log(isDesigner);
  * Coding challenge 3
  */
 
+/*
 function tipCalculator(billAmount) {
   var percentage;
   if (billAmount < 50.00) {
@@ -422,15 +423,87 @@ function tipCalculator(billAmount) {
 }
 
 var billAmount = [124, 48, 268];
+
 var tip = [tipCalculator(billAmount[0]),
-            tipCalculator(billAmount[1]),
-            tipCalculator(billAmount[2])];
+           tipCalculator(billAmount[1]),
+           tipCalculator(billAmount[2])];
+
 var totalBill = [billAmount[0] + tip[0],
                  billAmount[1] + tip[1],
                  billAmount[2] + tip[2]];
+
 console.log(billAmount);
 console.log(tip);
 console.log(totalBill);
+*/
 
+/**********************************************************************
+ * Objects and Properties
+ *
+ * With objects we can name each of the values using key value pairs
+ * which means each object has a name which is called the key.
+ * we can use objects to group different variables together that have no particular order
+ * In arrays the order matters a lot but in objects it doesn't matter.
+ */
 
+/*
+// Object literal
+var john = {              // Creating the object john
+  fistName: 'John',       // firstname is the key and john is the value making a key pair and is fistName is a property
+  lastName: 'Smith',
+  birthYear: 1990,
+  family: ['Jane', 'Mark', 'Bob', 'Emily'],
+  job: 'teacher',
+  isMarried: false
+};
+console.log(john);
+console.log(john.fistName);
+console.log(john['lastName']);
+var x = 'birthYear';
+console.log(john[x]);
+john.job = 'designer';
+console.log(john.job);
+john['isMarried'] = true;
+console.log(john.isMarried);
+
+// New object syntax
+var jane = new Object();      // Another way of creating a new empty object, next line fills up the object
+jane.firstName = 'Jane';
+jane.birthYear = 1969;
+jane['lastName'] = 'Smith';
+console.log(jane);
+*/
+
+/**********************************************************************
+ * Objects and Methods
+ *
+ * Objects can hold different data types, including arrays and even other objects.
+ * Objects can also hold functions and they are called methods
+ */
+
+/*
+var john = {
+  fistName: 'John',
+  lastName: 'Smith',
+  birthYear: 1990,
+  family: ['Jane', 'Mark', 'Bob', 'Emily'],
+  job: 'teacher',
+  isMarried: false,
+  calcAge: function () {         // Function expression calcAge contains the result.
+    // return 2020 - this.birthYear;
+    return this.age = 2020 - this.birthYear;
+  }
+};
+// console.log(john.calcAge(john.birthYear));
+// console.log(john.calcAge());     // Using this in the function means we don't have pass the value
+//
+// john.age = john.calcAge();       // This uses the function expression 'calAge' and stores 'age' in the john object
+// console.log(john);
+john.calcAge();                     // calculates and adds the age property
+console.log(john);
+*/
+
+/**********************************************************************
+ * Coding challenge 4
+ */
 
