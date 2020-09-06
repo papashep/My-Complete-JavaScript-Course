@@ -282,7 +282,6 @@ if (height == '23') {
 }
 */
 
-
 /**********************************************************************
  * Coding challenge 2
  */
@@ -305,17 +304,103 @@ if (avgJohn > avgMike && avgJohn > avgMary) {
 }
 */
 
-
 /**********************************************************************
  * Functions
  */
 
+/*
+function calculateAge( birthYear ) {    // birthYear is an arument we can pass into the function
+  return 2018 - birthYear;
+}
 
+var ageJohn = calculateAge(1990);
+var ageMike = calculateAge(1948);
+var ageJane = calculateAge(1969);
+console.log(ageJohn, ageMike, ageJane);
 
+function yearsUntilRetirement( year, firstName ) {    // A function does NOT have to return a value
+  var age = calculateAge(year);                       // Calling another function from within a function
+  var retirement = 66 - age;
+  if (retirement < 1 ) {
+    console.log(firstName + ' is already retired.');
+  } else {
+    console.log(firstName + ' retires in ' + retirement + ' years.');
+  }
+}
 
+yearsUntilRetirement(1990, 'John');
+yearsUntilRetirement(1948, 'Mike');
+yearsUntilRetirement(1969, 'Jane');
+*/
 
+/**********************************************************************
+ * Function Statements and Expressions
+ */
 
+/*
+// Function declaration
+// function whatDoYouDo(job, firstName){
+//
+// }
 
+// Function expression
+var whatDoYouDo = function(job, firstName) {
+  switch (job) {   // Do not need the 'break' because the 'return' ends the switch statement.
+    case 'teacher':
+      return firstName + ' teaches kids how to code.'; // This will be executed for 'teacher' or 'instructor'
+    case 'driver':
+      return firstName + ' drives an uber in Lisbon.';
+    case 'designer':
+    case 'coder':
+      return firstName + ' designs beautiful websites.';
+    case 'retired':
+      return firstName + ' now retired and living it up.';
+    default:
+      return firstName + ' does something else.';
+  }
+}
 
+console.log(whatDoYouDo('teacher', 'John'));
+console.log(whatDoYouDo('designer', 'Jane'));
+console.log(whatDoYouDo('retired', 'Mark'));
+console.log(whatDoYouDo('anything', 'Fred'));
+console.log(whatDoYouDo('driver', 'Mary'));
+
+// Expresions produces a result 2+3 = 5,   the result being 5
+// Statements them selves do not produe a result  a = 5
+// Function expresiions produces a result where function declarations do not
+
+*/
+
+/**********************************************************************
+ * Arrays  They are zero based
+ */
+
+// Initialize new array's
+var names = ['John', 'Mark', 'Jane'];
+var years = new Array(1990, 1969, 1948);  // new not normally used
+
+console.log(names[1]);
+console.log(names);
+console.log(names.length);
+
+// Mutate array data
+names[1] = 'Ben';
+names[names.length] = 'Mary'; // gets the length of the array and adds 'Mary' to the end
+console.log(names);
+
+// Different data types
+var john = ['John', 'Smith', 1990, 'teacher', false];
+
+john.push('blue');                              // The push method will add an item to the end of the array
+john.unshift('Mr.');                      // The upshift method adds to the beginning of the array
+john.pop();                                     // The pop method removes the element from the end
+john.pop();                                     // The pop method removes the element from the end
+john.shift();                                   // The shift method removes the element from the beginning
+console.log(john);
+console.log(john.indexOf(1990));                // Show the position of 1990 in the array, starting from zero
+console.log(john.indexOf(23));                  // Show the position of 23 in the array, returns -1 not in the array
+var isDesigner = john.indexOf('designer') === -1 ? 'John is NOT a designer' : 'John IS a designer'; // Ternary operation
+console.log(isDesigner);
 
 
