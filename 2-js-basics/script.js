@@ -507,3 +507,84 @@ console.log(john);
  * Coding challenge 4
  */
 
+/*
+var john = {
+  fullName: 'John Smith',
+  mass: 72,
+  height: 1.95,
+  calcBMI: function () {
+    this.bmi = this.mass / (this.height * this.height);
+    return this.bmi;
+  }
+}
+  
+var mark = {
+  fullName: 'Mark Miller',
+  mass: 78,
+  height: 1.69,
+  calcBMI: function () {
+    this.bmi = this.mass / (this.height * this.height);
+    return this.bmi;
+  }
+}
+
+
+if (john.calcBMI() > mark.calcBMI()) {  // Only calculate the bmi once which is returned from the calcBMI methods
+  console.log(john.fullName + ' has a higher BMI of ' + john.bmi);
+} else if (mark.bmi > john.bmi) {
+  console.log(mark.fullName + ' has a higher BMI of ' + mark.bmi);
+} else {
+  console.log(john.fullName + ' and ' + mark.fullName + ' have the same BMI of ' + mark.bmi);
+}
+*/
+
+/**********************************************************************
+ * Loops and Iteration
+ */
+
+/*
+// For Loops
+
+for (var i = 0; i < 10; i++) {
+  console.log(i);
+}
+// i = 0, 0 < 10 true, log i to console, increment i to 1
+// i = 1, 1 < 10 true, log i to console, increment i to 2
+// ...
+// i = 9, 9 < 10 true, log i to console, increment i to 10
+// i = 10, 10 < 10 false, exit the loop!
+
+var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+
+for (var i = 0; i < john.length; i++) {     // length is counts from 1 to the end, not 0 as array's do, hence <
+  console.log(john[i]);
+}
+
+// While loop
+
+var i = 0;
+while(i < john.length ) {
+  console.log(john[i]);
+  i++;
+}
+*/
+
+// Continue and Break statements,
+// continue breaks out the current iteration and continues with next one, break quits the loop.
+
+var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+
+for (var i = 0; i < john.length; i++) {
+  if (typeof john[i] !== 'string') continue;        // Strict not equal to
+  console.log(john[i]);
+}
+
+for (var i = 0; i < john.length; i++) {
+  if (typeof john[i] !== 'string') break;    // Strict not equal to, stops when it encounters value thats not a string
+  console.log(john[i]);
+}
+
+// Looping Backwards
+for (var i = john.length - 1; i >= 0; i--) {
+  console.log(john[i]);
+}
