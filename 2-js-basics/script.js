@@ -376,6 +376,7 @@ console.log(whatDoYouDo('driver', 'Mary'));
  * Arrays  They are zero based
  */
 
+/*
 // Initialize new array's
 var names = ['John', 'Mark', 'Jane'];
 var years = new Array(1990, 1969, 1948);  // new not normally used
@@ -393,7 +394,7 @@ console.log(names);
 var john = ['John', 'Smith', 1990, 'teacher', false];
 
 john.push('blue');                              // The push method will add an item to the end of the array
-john.unshift('Mr.');                      // The upshift method adds to the beginning of the array
+john.unshift('Mr.');                            // The upshift method adds to the beginning of the array
 john.pop();                                     // The pop method removes the element from the end
 john.pop();                                     // The pop method removes the element from the end
 john.shift();                                   // The shift method removes the element from the beginning
@@ -402,5 +403,34 @@ console.log(john.indexOf(1990));                // Show the position of 1990 in 
 console.log(john.indexOf(23));                  // Show the position of 23 in the array, returns -1 not in the array
 var isDesigner = john.indexOf('designer') === -1 ? 'John is NOT a designer' : 'John IS a designer'; // Ternary operation
 console.log(isDesigner);
+*/
+
+/**********************************************************************
+ * Coding challenge 3
+ */
+
+function tipCalculator(billAmount) {
+  var percentage;
+  if (billAmount < 50.00) {
+    percentage = (20/100);
+  } else if (billAmount >= 50.00 && billAmount <= 200.00) {
+    percentage = (15/100);
+  } else {
+    percentage = (10/100);
+  }
+  return billAmount * percentage;
+}
+
+var billAmount = [124, 48, 268];
+var tip = [tipCalculator(billAmount[0]),
+            tipCalculator(billAmount[1]),
+            tipCalculator(billAmount[2])];
+var totalBill = [billAmount[0] + tip[0],
+                 billAmount[1] + tip[1],
+                 billAmount[2] + tip[2]];
+console.log(billAmount);
+console.log(tip);
+console.log(totalBill);
+
 
 
