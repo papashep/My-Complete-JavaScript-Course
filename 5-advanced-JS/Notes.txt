@@ -1,0 +1,92 @@
+  Primitives:
+    - Numbers
+    - Strings
+    - Booleans
+    - Undefined
+    - Null
+
+   Everything else is an object
+    - Arrays
+    - Functions
+    - Objects
+    - Dates
+    - Wrappers for:
+      - Numbers
+      - Strings
+      - Booleans
+
+  Object Oriented Programmings
+    - They interact with one and another to create complex applications.
+    - Objects interacting with one through methods and properties.
+    - Used to store data, structure applications into modules and keeping code clean.
+    - We can create a blue print of an object rather than creating individual objects as we have done in the past.
+
+              Person                In other languages this would be called a class, but in JavaScript it is
+              ------                called a Constructor or Prototype.
+              name
+              yearOfBirth
+              job
+              calculateAge()
+    - Based on the Constructor we can create as many Instances as we want such as 'John','Mark' and 'Jane' each
+      having the same properties and methods as the Constructor defined above and they would be person instances,
+      these are all objects.
+    - Inheritance:
+              Athlete
+              -------
+              olympics
+              olympicMedals
+              allowedOlympics()
+        -   All the Athletes need to have the same properties as the person Constructor
+
+              Person
+                |
+               From
+                |
+              Athlete  - Inherits from Person
+               olympics
+               olympicMedals
+               allowedOlympics()
+               name
+               yearOfBirth
+               job
+               calculateAge()
+
+ Prototypes
+  - JavaScript is a prototype language which means every object has a prototype prototype property.
+               Person
+               ------
+               Prototype
+               calculateAge()
+  - Inheritance is made possible by the prototype property that every object has.
+  - The prototype property is where whe put properties and methods that we want other objects to inherit.
+
+  - The person constructor object is an instance of a higher level object called 'Object'
+
+              john                            person      |                   object                   null
+              ----                            ------      |                   ------                   ----
+              John                               |        |                      |
+              1998        --------->          Prototype   |    ---------->    Prototype   ---------->  No Prototype
+              teacher                         ---------                       ---------                ------------
+                 |                            CalculateAge()                     |
+              -------                                                         hasOwnProperty()
+              Prototype                                                       isPrototypePf()
+                                                                              constructor()
+                                                                              toString()
+                                                                                   .
+                                                                                   .
+                                                                                   .
+                                                                               valueOf()
+
+  - Each an every object that we create has an instance of the 'object' constructor which contains a bunch of methods
+    in it's 'prototype' property.
+  - The person objects inherits the object methods and call them, the true is the same for the 'john' object.
+
+    THIS IS THE PROTOTYPE CHAIN
+    ---------------------------
+
+    - Every JavaScript object has a prototype property, which makes inheritance possible in JavaScript.
+    - The prototype property of an object is where we put methods and properties that we want other objects to inherit.
+    - The Constructor's prototype property is NOT the prototype of the Constructor itself, it's the prototype of ALL
+      instances that are created through it.
+    - When a certain method (or property) is called, the search start in the object itself, and if it cannot be found,
+      the search moves on to the object's prototype. This continues until the method (or property) is found.

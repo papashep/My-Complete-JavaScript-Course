@@ -10,63 +10,46 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, gamePlaying;   // Variables defined here are in the Global scope
+var scores, roundScore, activePlayer, gamePlaying, lastDice;   // Variables defined here are in the Global scope
 
 initGame();
 
-// Used to change the values on the Web Page  We call this a setter because it sets a value
-// document.querySelector('#current-' + activePlayer).textContent = 'dice'; // textContent can only be text
-// document.querySelector('#current-' + activePlayer).innerHTML='<em>' + dice + '</em>';  // innerHTML same as above.
-
-// We call this a getter because it just gets a value
-// var x = document.querySelector('#score-0').textContent;   // Read only
-// console.log(x);
-
-// Hide the dice at the beginning by using a css property.   '.dice' is the class in the css file
 document.querySelector('.dice').style.display = 'none';  // ALWAYS use querySelector for classes
 
-// Set the elements to zero using the getElementByID method rather than the querySelector
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
-
-/*
-The execution stack has to be empty before the Event Listener does any processing.
-All events in JavaScript are put into the message queue and they sit there waiting to be processed.
-Once the execution stack is empty the next event will get processed by the eventListener and since it is a function
-it will be placed onto the execution stack.
-The click event will be the clickHandler function which is placed onto the execution context stack
-
- */
-
-// Event Handler For the mouse even 'click', button is 'btn-roll'.
-// After the event type 'click' you the select the function you want to call.
-
-// function btn() {  // This is called a callback function because it's being call by another function ie addEventListener
-//   // Do something here
-// }
-// btn();
-// document.querySelector('.btn-roll').addEventListener('click',btn () {
-// or:
-
 document.querySelector('.btn-roll').addEventListener('click',function () {
-  // We are writing our  function here instead of calling an external function, this is known as an 'anonymous function'
-  // REMEMBER THE SCOPE CHAIN
-  // When someone clicks the button:
-  
+ 
       if (gamePlaying) {
         
         // 1. Random Number
-            var dice = Math.floor(Math.random() * 6 ) + 1;  // Random number between 1 and 6 (floor gives the integer value)
+            var dice1 = Math.floor(Math.random() * 6 ) + 1;  // Random number between 1 and 6 (floor gives the integer value)
+            var dice2 = Math.floor(Math.random() * 6 ) + 1;  // Random number between 1 and 6 (floor gives the integer value)
         
         // 2. Display the result
-            var diceDOM = document.querySelector('.dice')
-            diceDOM.style.display = 'block';            // Un-hides the dice image
-            diceDOM.src = 'dice-' + dice + '.png';      // gets the correct image for the number rolled.
+        //     var diceDOM = document.querySelector('.dice')
+        //     diceDOM.style.display = 'block';            // Un-hides the dice image
+        //     diceDOM.src = 'dice-' + dice + '.png';      // gets the correct image for the number rolled.
         
+            document.getElementById('dice-1').style.display = 'block';
+            document.getElementById('dice-2').style.display = 'block';
+            document.getElementById('dice-1').src= 'dice-' + dice1 + '.png';
+            document.getElementById('dice-2').src= 'dice-' + dice2 + '.png';
         // 3. Update the round score Only IF the rolled number was not a 1
-            if ( dice !== 1) {            // Using the difference operator rather than greater than, no type coercion.
+            if ( dice1 !== 1 && dice2 !== 1) {
+                  // Add score
+                  roundScore += dice1 + dice2;
+                  // the # is only for the query selector
+                  document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            } else {
+                  // Next Player
+                  nextPlayer();
+            }
+            /*
+            if ( dice === 6 && lastDice === 6 ) {
+                // Player Loses score
+                scores[activePlayer] = 0;
+                document.querySelector('#score-' + activePlayer).textContent = '0';
+                nextPlayer();
+            } else if ( dice !== 1) {
                   // Add score
                   roundScore += dice;
                   // the # is only for the query selector
@@ -75,6 +58,8 @@ document.querySelector('.btn-roll').addEventListener('click',function () {
                   // Next Player
                   nextPlayer();
             }
+            lastDice = dice;
+            */
       }
 });
 
@@ -86,10 +71,25 @@ document.querySelector('.btn-hold').addEventListener('click',function () {
             // Update UI
             document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
             
+            var input = document.querySelector('.final-score').value;
+            
+            
+            var winningScore;
+            // Undefined, 0, null or "" are coerced to false anything else is coerced to true
+            if ( input ) {
+               winningScore = input;
+            } else  {
+               winningScore = 100;
+            }
+            if (isNaN(winningScore))  {
+               winningScore = 100;
+            }
+            
             // Check if the player won the game
-            if (scores[activePlayer] >= 100) {
+            if (scores[activePlayer] >= winningScore ) {
                 document.querySelector ('#name-' + activePlayer).textContent = 'Winner!';
-                document.querySelector('.dice').style.display = 'none';
+                document.getElementById('dice-1').style.display = 'none'
+                document.getElementById('dice-2').style.display = 'none'
                 document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
                 document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
                 gamePlaying = false;
@@ -101,8 +101,6 @@ document.querySelector('.btn-hold').addEventListener('click',function () {
 });
 
 document.querySelector('.btn-new').addEventListener('click', initGame );
-// If we specified 'initGame()' the function would be immediately called but we don't want that hence just 'initGame',
-// by doing it this way we are telling the eventListener to call the 'initGame' function when the button is clicked.
 
 function nextPlayer() {
       // Next Player
@@ -111,13 +109,12 @@ function nextPlayer() {
       
       document.getElementById('current-0').textContent = '0';
       document.getElementById('current-1').textContent = '0';
-      
-      // document.querySelector('.player-0-panel').classList.remove('active');
-      // document.querySelector('.player-1-panel').classList.add('active');
+
       document.querySelector('.player-0-panel').classList.toggle('active');
       document.querySelector('.player-1-panel').classList.toggle('active');
       
-      document.querySelector('.dice').style.display = 'none';
+      document.getElementById('dice-1').style.display = 'none'
+      document.getElementById('dice-2').style.display = 'none'
 };
 
 function initGame() {
@@ -125,8 +122,9 @@ function initGame() {
       roundScore = 0;
       activePlayer = 0;
       gamePlaying = true;
-      // Hide the dice at the beginning by using a css property.   '.dice' is the class in the css file
-      document.querySelector('.dice').style.display = 'none';  // ALWAYS use querySelector for classes
+      
+      document.getElementById('dice-1').style.display = 'none'
+      document.getElementById('dice-2').style.display = 'none'
 
       // Set the elements to zero using the getElementByID method rather than the querySelector
       document.getElementById('score-0').textContent = '0';
