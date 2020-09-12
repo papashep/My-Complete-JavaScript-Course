@@ -90,3 +90,5 @@
       instances that are created through it.
     - When a certain method (or property) is called, the search start in the object itself, and if it cannot be found,
       the search moves on to the object's prototype. This continues until the method (or property) is found.
+
+
