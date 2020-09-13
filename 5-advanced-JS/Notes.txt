@@ -92,3 +92,63 @@
       the search moves on to the object's prototype. This continues until the method (or property) is found.
 
 
+Functions are also objects.
+    - A function is an instance of the Object type.
+    - A function behaves like any other object.
+    - We can store functions in a variable.
+    - We can pass a function as an argument to another function.
+    - We can also return a function from a function.
+    - We say in JavaScript we have first-class functions.
+
+Call Back Functions
+    Why do we need Callbacks?
+    For one very important reason — JavaScript is an event driven language. This means that instead of waiting for a
+    response before moving on, JavaScript will keep executing while listening for other events.
+    Lets look at a basic example:
+        function first(){
+          console.log(1);
+        }
+        function second(){
+          console.log(2);
+        }
+        first();
+        second();
+    As you would expect, the function first is executed first, and the function second is executed second — logging
+    the following to the console:
+    Outputs: 1
+    Outputs: 2
+
+    All good so far.
+
+    But what if function first contains some sort of code that can’t be executed immediately? For example,
+    an API request where we have to send the request then wait for a response? To simulate this action, were going
+    to use setTimeout which is a JavaScript function that calls a function after a set amount of time.
+    We’ll delay our function for 500 milliseconds to simulate an API request. Our new code will look like this:
+
+        function first(){
+          // Simulate a code delay
+          setTimeout( function(){
+            console.log(1);
+          }, 500 );
+        }
+        function second(){
+          console.log(2);
+        }
+        first();
+        second();
+
+    It’s not important that you understand how setTimeout() works right now. All that matters is that you see
+    we’ve moved our console.log(1); inside of our 500 millisecond delay. So what happens now when we invoke
+    our functions?
+        first();
+        second();
+    Outputs: 2
+    Outputs: 1
+
+    Even though we invoked the first() function first, we logged out the result of that function after the second()
+    function.
+    It’s not that JavaScript did not execute our functions in the order we wanted it to, it’s instead that JavaScript
+    did not wait for a response from first() before moving on to execute second().
+    So why show you this? Because you can’t just call one function after another and hope they execute in the
+    right order. Callbacks are a way to make sure certain code does not execute until other code has already finished
+    execution.
