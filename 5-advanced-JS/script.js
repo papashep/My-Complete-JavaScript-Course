@@ -337,12 +337,105 @@ interviewQuestion('teacher')('Mike');
 function retirement(retirementAge) {
   var a = ' years let until retirement.';
   return function (yearOfBirth) {
-    var age = 2020 - yearOfBirth;
+    var age = 2016 - yearOfBirth;
     console.log((retirementAge - age) + a);
   }
 }
 
 var retirementUS = retirement(66);
+var retirementGermany = retirement(65);
+var retirementIceland = retirement(67);
+retirementGermany(1990);
 retirementUS(1990);
+retirementIceland(1990);
+// function interviewQuestion(job) {
+//   if ( job === 'designer' ) {
+//     return function (name) {      // An anonymous function, no function name.
+//       console.log( name + ', can you please explain what UX design is?' );
+//     }
+//   } else if ( job === 'teacher' ) {
+//     return function (name) {      // An anonymous function, no function name.
+//       console.log( 'What subject do you teach, ' + name + '?');
+//     }
+//   } else {
+//     return function (name) {      // An anonymous function, no function name.
+//       console.log('hello ' + name + ', what do you do?');
+//     }
+//   }
+// }
+
+// The above using closures
+function interviewQuestion (job) {
+  return function (name) {
+    if ( job === 'designer' ) {
+      console.log (name + ', can you please explain what UX design is?');
+    } else if ( job === 'teacher' ) {
+      console.log ('What subject do you teach, ' + name + '?');
+    } else {
+      console.log ('hello ' + name + ', what do you do?');
+    }
+  }
+}
+interviewQuestion('teacher')('John');
+interviewQuestion('designer')('Jane');
+interviewQuestion('')('Mark');
+
 // Also write it like this
-retirement(66)(1956);
+// retirement(66)(1956);
+/*
+ The above calls the retirement function passing '66' to it, it is executed and popped of the stack on completion.
+ When run we assign the variable 'a' a value and process the anonymous function to calculate the age and display
+ it on the console log with the value of 'a' giving '2 years left until retirement.'
+ But some how we are able to use the variable and retirement function after it has gone, this is 'Closures'.
+ An inner function has always access to the variables and parameters of it's out function, even after the outer
+ function has returned.
+
+                                                                                         Global Scope
+  Execution Stack                                                                        ------------
+  ---------------
+                                 
+                                 function retirement(retirementAge) {
+                                  var a = ' years let until retirement.';
+                                  return function (yearOfBirth) {
+                                    var age = 2016 - yearOfBirth;
+                                    console.log((retirementAge - age) + a);
+                                  }
+                                 }
+
+   Execution Context  ------>     var retirementUS = retirement(66);                   Scope
+      retirement()                retirementUS(1990)                                   retirement()  retirementAge(66)
+   On Return this context                                                                            a = 'years ...'
+   is gone, but the 'a' var       // Result:                                           Remember the scope chain is a
+   and retirementAge=66 still     // 40 years left until retirement.                   pointer to variable objects
+   exists in memory               // (2016 - (2016 - 1990))
+  
+   Next place this Context Execution
+   on the stack above the Global
+   Execution
+   retirementAge=66
+   a= 'years .....'
+   yearOfBirth = 1990                                                                         Scope
+   age =26                                                                                    retirement(US)
+   Execution context                                                                              retirementAge=66
+      retirementUS()                                                                              a='years.....'
+                                                                                                  Created by the
+                                                                                                  inner function
+                                                                                                     yearOfBirth=1990
+                                                                                                     age=25
+                                                                                                  
+   Since the execution variables still exists the scope chain remains intact, Closures ae built in within JavaScript.
+   An inner function has always access to the variables and parameters of it's out function, even after the outer
+   function has returned.
+     
+     
+     Execution Stack                                                                    Scope Chain
+     ---------------                                                                    ---------------
+*/
+
+/*************************************************
+ * Lecture: Bind, Call and Apply methods
+ */
+
+
+
+
