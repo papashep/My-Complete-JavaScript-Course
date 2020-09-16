@@ -333,11 +333,11 @@ interviewQuestion('teacher')('Mike');
 /*********************************************
  * Lecture: Closures
  */
-
+/*
 function retirement(retirementAge) {
-  var a = ' years let until retirement.';
+  var a = ' years left until retirement.';
   return function (yearOfBirth) {
-    var age = 2016 - yearOfBirth;
+    var age = 2020 - yearOfBirth;
     console.log((retirementAge - age) + a);
   }
 }
@@ -348,6 +348,22 @@ var retirementIceland = retirement(67);
 retirementGermany(1990);
 retirementUS(1990);
 retirementIceland(1990);
+retirement(66)(1956);
+
+
+// My little closures function example to add two numbers to the 'a' variable in the main function
+// You cannot change the value of 'a' but you can still use it.
+function addx(b){
+  var a=100;
+  return function (c) {
+    var total = a + b + c;
+    console.log(total);
+    a = b + c;
+  }
+}
+addx(200)(50);
+addx(20)(3);
+
 // function interviewQuestion(job) {
 //   if ( job === 'designer' ) {
 //     return function (name) {      // An anonymous function, no function name.
@@ -380,8 +396,12 @@ interviewQuestion('teacher')('John');
 interviewQuestion('designer')('Jane');
 interviewQuestion('')('Mark');
 
+
+
 // Also write it like this
 // retirement(66)(1956);
+*/
+
 /*
  The above calls the retirement function passing '66' to it, it is executed and popped of the stack on completion.
  When run we assign the variable 'a' a value and process the anonymous function to calculate the age and display
@@ -435,7 +455,236 @@ interviewQuestion('')('Mark');
 /*************************************************
  * Lecture: Bind, Call and Apply methods
  */
+/*
+var john = {
+  name: 'John',
+  age: 26,
+  job: 'teacher',
+  presentation: function (style, timeOfDay){
+    if ( style === 'formal') {
+      console.log('Good ' + timeOfDay + ', Ladies and gentlemen! I\'m ' + this.name + ', I\'m a ' + this.job + ' and' +
+        ' I\'m '
+        + this.age + ' years old.');
+    } else if ( style === 'friendly') {
+      console.log('Hey! What\'s up? Ladies and gentlemen! I\'m ' + this.name + ', I\'m a ' + this.job + ' and I\'m '
+        + this.age + ' years old. Have a nice ' + timeOfDay + '.');
+    }
+  }
+}
 
+var emily = {
+  name: 'Emily',
+  age: 35,
+  job: 'designer'
+}
+john.presentation('formal','morning');
+
+// Let use the presentation function for Emily who does not have it defined in her object
+// We use the call method specifying the value for the 'this' variable followed by the other arguments
+john.presentation.call(emily,'friendly','afternoon');  // Called method borrowing.
+
+john.presentation.apply(emily,['formal', 'morning']);  // This may not work because our function does not expect an
+                                                       // array. IT DID WORK FOR ME
+// The Bind method is very similar to the call method, it also allows us to set the 'this' method explicitly, however
+// the difference here is the bind method doesn't immediately call the function, but instead it generates a copy of
+// the function so we can store it somewhere, it can be extremely useful to set a function with preset values.
+// This is known as Currying in JavaScript.
+
+var johnFriendly = john.presentation.bind(john, 'friendly');  // The function gets stored in the johnFriendly variable.
+                                                              // in this example we only stored the first input
+                                                              // variable, we could have stored both if we wanted.
+johnFriendly('morning');
+johnFriendly('night');
+
+var emilyFormal = john.presentation.bind(emily,'formal');
+emilyFormal('afternoon');
+
+// Using the bind method with call back
+var years = [1990, 1965, 1937, 2005, 1998];
+
+function arrayCalc(arr, fn) {                 // arr = array    fn = function  Called a high-order function
+  var arrRes = [];                            // the function is applied to the array
+  for ( var i = 0; i < arr.length; i++ ){
+    arrRes.push( fn ( arr[i] ) );
+  }
+  return arrRes;
+}
+
+// Call back functions that we pass into our function.
+// ---------------------------------------------------
+function calculateAge(el) {                   // el = element
+  return 2016 - el;
+}
+
+function isFullAge(limit, el) {               // Added limit to the fullAge function
+  return el >= limit;                         // Returns true of false  >=
+}
+
+var ages = arrayCalc(years, calculateAge);
+var fullJapan = arrayCalc(ages, isFullAge.bind(this,20));
+console.log(ages);
+console.log(fullJapan);
+
+
+// // Using version 6+ of JavaScript
+// let dragon =
+//   name =>
+//     size =>
+//       element =>
+//         name + ' is a ' +
+//         size + ' dragon that breathes ' +
+//         element + '!'
+// console.log(dragon('fluffykins')('tiny')('lightning'))
+*/
+
+/*********************************************************************
+ *  Coding Challenge
+ */
+/*
+--- Let's build a fun quiz game in the console! ---
+1. Build a function constructor called Question to describe a question. A question should include:
+a) question itself
+b) the answers from which the player can choose the correct one (choose an adequate data structure here, array, object, etc.)
+c) correct answer (I would use a number for this)
+2. Create a couple of questions using the constructor
+3. Store them all inside an array
+4. Select one random question and log it on the console, together with the possible answers (each question should have a number) (Hint: write a method for the Question objects for this task).
+5. Use the 'prompt' function to ask the user for the correct answer. The user should input the number of the correct answer such as you displayed it on Task 4.
+6. Check if the answer is correct and print to the console whether the answer is correct ot nor (Hint: write another method for this).
+7. Suppose this code would be a plugin for other programmers to use in their code. So make sure that all your code is private and doesn't interfere with the other programmers code (Hint: we learned a special technique to do exactly that).
+*/
+
+// Function Constructor
+(function() {
+  function Question(question, answers, correct) {
+    
+    this.question = question;
+    this.answers = answers;
+    this.correct = correct;
+  }
+  
+  // write the method in the prototype of Question so that it's not in all the instances created from the function
+  // Example of  usage when the Question is called by 'q1' then the this keyword will point to 'q1'
+  Question.prototype.displayQuestion = function () {
+    
+    console.log(this.question);
+    
+    for ( var i = 0; i <= this.answers.length; i++ ) {
+      console.log(i + ': ' + this.answers);
+    }
+  }
+  
+  Question.prototype.checkAnswer = function(ans) {
+    if (ans === this.correct) {
+      console.log('Correct answer!');
+    } else {
+      console.log('Wrong answer. Try again :)')
+    }
+  }
+  
+  // Now use the function constructor to create a couple of questions
+  var q1 = new Question('Is JavaScript the coolest programming language in the world?',
+    ['Yes','No'],0);
+  // 'new' creates an empty object, then it calls the Question function and sets the 'this' variable(s) of this function
+  // to the new empty object that we just created 'q1' which holds the reference to the new object.
+  
+  var q2 = new Question('What is the name of this course\'s teacher?',
+    ['John','Fred', 'Jonas'],2);
+  
+  var q3 = new Question('What does best describe coding?',
+    ['Boring','Hard', 'Fun','Tedious'],2);
+  
+  // Store the questions in an array and select one random question
+  var questions = [q1, q2, q3];
+  
+  var n = Math.floor(Math.random() * questions.length);   // Math.floor converts the random number to an integer value
+    
+    questions[n].displayQuestion();
+    
+    var answer = parseInt(prompt('Please select the correct answer.'));
+    questions[n].checkAnswer(answer);
+  
+})();
+
+/*
+--- Expert level ---
+8. After you display the result, display the next random question, so that the game never ends (Hint: write a function for this and call it right after displaying the result)
+9. Be careful: after Task 8, the game literally never ends. So include the option to quit the game if the user writes 'exit' instead of the answer. In this case, DON'T call the function from task 8.
+10. Track the user's score to make the game more fun! So each time an answer is correct, add 1 point to the score (Hint: I'm going to use the power of closures for this, but you don't have to, just do this with the tools you feel more comfortable at this point).
+11. Display the score in the console. Use yet another method for this.
+*/
+
+/*
+(function() {
+    function Question(question, answers, correct) {
+        this.question = question;
+        this.answers = answers;
+        this.correct = correct;
+    }
+    Question.prototype.displayQuestion = function() {
+        console.log(this.question);
+        for (var i = 0; i < this.answers.length; i++) {
+            console.log(i + ': ' + this.answers[i]);
+        }
+    }
+    Question.prototype.checkAnswer = function(ans, callback) {
+        var sc;
+        
+        if (ans === this.correct) {
+            console.log('Correct answer!');
+            sc = callback(true);
+        } else {
+            console.log('Wrong answer. Try again :)');
+            sc = callback(false);
+        }
+        
+        this.displayScore(sc);
+    }
+    Question.prototype.displayScore = function(score) {
+        console.log('Your current score is: ' + score);
+        console.log('------------------------------');
+    }
+    
+    
+    var q1 = new Question('Is JavaScript the coolest programming language in the world?',
+                          ['Yes', 'No'],
+                          0);
+    var q2 = new Question('What is the name of this course\'s teacher?',
+                          ['John', 'Micheal', 'Jonas'],
+                          2);
+    var q3 = new Question('What does best describe coding?',
+                          ['Boring', 'Hard', 'Fun', 'Tediuos'],
+                          2);
+    
+    var questions = [q1, q2, q3];
+    
+    function score() {
+        var sc = 0;
+        return function(correct) {
+            if (correct) {
+                sc++;
+            }
+            return sc;
+        }
+    }
+    var keepScore = score();
+    
+    
+    function nextQuestion() {
+        var n = Math.floor(Math.random() * questions.length);
+        questions[n].displayQuestion();
+        var answer = prompt('Please select the correct answer.');
+        if(answer !== 'exit') {
+            questions[n].checkAnswer(parseInt(answer), keepScore);
+            
+            nextQuestion();
+        }
+    }
+    
+    nextQuestion();
+    
+})();
+*/
 
 
 
