@@ -152,3 +152,126 @@ Call Back Functions
     So why show you this? Because you can’t just call one function after another and hope they execute in the
     right order. Callbacks are a way to make sure certain code does not execute until other code has already finished
     execution.
+
+    Ask Questions challenge extended version:
+    -----------------------------------------
+
+    Steps following debugger:
+
+    1)  (function() {
+    2)  Question.prototype.displayQuestion = function() {
+                console.log(this.question);
+                for (var i = 0; i < this.answers.length; i++) {
+                    console.log(i + ': ' + this.answers[i]);
+                }
+    3)     Question.prototype.checkAnswer = function(ans, callback) {
+                var sc;
+
+                if (ans === this.correct) {
+                    console.log('Correct answer!');
+                    sc = callback(true);
+                } else {
+                    console.log('Wrong answer. Try again :)');
+                    sc = callback(false);
+                }
+
+                this.displayScore(sc);
+            }
+    4)  Question.prototype.displayScore = function(score) {
+            console.log('Your current score is: ' + score);
+            console.log('------------------------------');
+        }
+    5)  var q1 = new Question('Is JavaScript the coolest programming language in the world?',
+                              ['Yes', 'No'], 0);
+    6)  function Question(question, answers, correct) {
+            this.question = question;
+            this.answers = answers;
+            this.correct = correct;
+        }
+    7)  var q2 = new Question('What is the name of this course\'s teacher?',
+                              ['John', 'Micheal', 'Jonas'], 2);
+        Then Step 6) again.
+        -------------------
+    8)  var q3 = new Question('What does best describe coding?',
+                              ['Boring', 'Hard', 'Fun', 'Tedious'], 2);
+        Then Step 6) again.
+        -------------------
+    9)  var questions = [q1, q2, q3];
+        Creates the question array.
+        ---------------------------
+    10) var keepScore = score();
+    11) function score() {
+            var sc = 0;
+            return function(correct) {
+                if (correct) {
+                    sc++;
+                }
+                return sc;
+            }
+        }
+        The variable 'sc' for score it set to zero.
+        -------------------------------------------
+    12) nextQuestion();
+        At this point everything is setup ready for the execution of the script.
+        ------------------------------------------------------------------------
+    13) function nextQuestion() {
+            var n = Math.floor(Math.random() * questions.length);
+            questions[n].displayQuestion();
+            var answer = prompt('Please select the correct answer.');
+            if(answer !== 'exit') {
+                questions[n].checkAnswer(parseInt(answer), keepScore);
+                nextQuestion();
+            }
+        }
+
+    14) Question.prototype.displayQuestion = function() {
+            console.log(this.question);
+            for (var i = 0; i < this.answers.length; i++) {
+                console.log(i + ': ' + this.answers[i]);
+            }
+            Displays the question
+            ---------------------
+            Displays the the answers
+            ------------------------
+    15) Question.prototype.checkAnswer = function(ans, callback) {
+            var sc;
+            if (ans === this.correct) {
+                console.log('Correct answer!');
+                sc = callback(true);
+            } else {
+                console.log('Wrong answer. Try again :)');
+                sc = callback(false);
+            }
+            this.displayScore(sc);
+        }
+
+        var keepScore = score();
+        Keeps the score when updated by Step 17)
+        ----------------------------------------
+    16) function score() {
+            return function(correct) {
+                if (correct) {
+                    sc++;
+                }
+                return sc;
+            }
+        }
+
+        var keepScore = score();
+        Keeps the score when updated by Step 17)
+        ----------------------------------------
+    17) Question.prototype.displayScore = function(score) {
+            console.log('Your current score is: ' + score);
+            console.log('------------------------------');
+        }
+    18) function nextQuestion() {
+            var n = Math.floor(Math.random() * questions.length);
+            questions[n].displayQuestion();
+            var answer = prompt('Please select the correct answer.');
+            if(answer !== 'exit') {
+                questions[n].checkAnswer(parseInt(answer), keepScore);
+                nextQuestion();
+            }
+        }
+        Back to the beginning of this function and the Step 14)
+        -------------------------------------------------------
