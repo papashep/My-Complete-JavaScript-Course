@@ -148,25 +148,25 @@ console.log(a);
 /*************************************************
  * Lecture: Passing functions as arguments.
  */
-/*
+
 var years = [1990, 1965, 1937, 2005, 1998];
 
 function arrayCalc(arr, fn) {                 // arr = array    fn = function  Called a high-order function
   var arrRes = [];
   for ( var i = 0; i < arr.length; i++ ){
-    arrRes.push( fn ( arr[i] ) );
+    arrRes.push( fn ( arr[i] ) );             // Call Back function fn is called here and pushed into the arrRes
   }
   return arrRes;
 }
 
 // Call back functions that we pass into our function.
 // ---------------------------------------------------
-function calculateAge(el) {                   // el = element
+function calculateAge(el) {                   // el = element, usually the 'yearOfBirth', but this time we call it 'el'
   return 2016 - el;
 }
 
 function isFullAge(el) {
-  return el >= 18;     // Returns true of false  >=
+  return el >= 18;                           // Returns true of false  >=
 }
 function maxHeartRate(el) {
   if ( el >=18 && el <= 81) {
@@ -179,15 +179,19 @@ function maxHeartRate(el) {
 var ages = arrayCalc(years, calculateAge); // We are not calling the calculateAge function here.
                                            // To do that we would have to specify 'calculateAge()'
                                            // We want is to be called later by the arrayCalc function hence
-                                           // it's called a callback function.
+                                           // it's called a CALL BACK function.
+                                           //               ---------
+                                           // we are simply passing the 'calculateAge' function back into the
+                                           // the 'arrayCalc' function. We store it into the variable ages.
 
-var fullAges = arrayCalc(ages, isFullAge); // as above but for isFullAge
+var fullAges = arrayCalc(ages, isFullAge); // as above but for isFullAge we passing into the 'ages' array we
+                                           // calculated before
 
 var rates = arrayCalc(ages, maxHeartRate); // as above
 
-console.log(ages);
-console.log(fullAges);
-console.log(rates);
+console.log('Ages: ' + ages);
+console.log('Have they reached adult age? ' + fullAges);
+console.log('Expected highest heart rates when exercising based on adult age: ' + rates);
 
 /*
   when JS works from first line , it will skip "years" array and skip "arrayCalc" function  and then skip "calculateAge"
@@ -409,13 +413,15 @@ interviewQuestion('')('Mark');
  But some how we are able to use the variable and retirement function after it has gone, this is 'Closures'.
  An inner function has always access to the variables and parameters of it's out function, even after the outer
  function has returned.
+ The scope chain maintains the variable values for the outer and inner functions even though they have been popped
+ of the stack.
 
                                                                                          Global Scope
   Execution Stack                                                                        ------------
   ---------------
                                  
                                  function retirement(retirementAge) {
-                                  var a = ' years let until retirement.';
+                                  var a = ' years let until retirement.';    // Variable 'a' can be used but not changed
                                   return function (yearOfBirth) {
                                     var age = 2016 - yearOfBirth;
                                     console.log((retirementAge - age) + a);
@@ -443,9 +449,9 @@ interviewQuestion('')('Mark');
                                                                                                      yearOfBirth=1990
                                                                                                      age=25
                                                                                                   
-   Since the execution variables still exists the scope chain remains intact, Closures ae built in within JavaScript.
+   Since the execution variables still exists the scope chain remains intact, Closures are built within JavaScript.
    An inner function has always access to the variables and parameters of it's out function, even after the outer
-   function has returned.
+   function has returned and been popped  of the execution stack.
      
      
      Execution Stack                                                                    Scope Chain
@@ -480,11 +486,11 @@ var emily = {
 john.presentation('formal','morning');
 
 // Let use the presentation function for Emily who does not have it defined in her object
-// We use the call method specifying the value for the 'this' variable followed by the other arguments
+// We use the call method specifying the value for the 'this' (emily) variable followed by the other arguments
 john.presentation.call(emily,'friendly','afternoon');  // Called method borrowing.
 
-john.presentation.apply(emily,['formal', 'morning']);  // This may not work because our function does not expect an
-                                                       // array. IT DID WORK FOR ME
+john.presentation.apply(emily,['formal', 'morning']);  // first argument 'this' variable (emily)
+
 // The Bind method is very similar to the call method, it also allows us to set the 'this' method explicitly, however
 // the difference here is the bind method doesn't immediately call the function, but instead it generates a copy of
 // the function so we can store it somewhere, it can be extremely useful to set a function with preset values.
@@ -499,7 +505,8 @@ johnFriendly('night');
 var emilyFormal = john.presentation.bind(emily,'formal');
 emilyFormal('afternoon');
 
-// Using the bind method with call back
+// Using the bind method with call back to calculate if someone if of full age, ie '18' in the UK, '20' in Japan.
+// based on the year born and the current year
 var years = [1990, 1965, 1937, 2005, 1998];
 
 function arrayCalc(arr, fn) {                 // arr = array    fn = function  Called a high-order function
@@ -521,7 +528,11 @@ function isFullAge(limit, el) {               // Added limit to the fullAge func
 }
 
 var ages = arrayCalc(years, calculateAge);
-var fullJapan = arrayCalc(ages, isFullAge.bind(this,20));
+
+var fullJapan = arrayCalc(ages, isFullAge.bind(this,20));  // In bind the first argument is always the this keyword
+                                                            // as shown with 'emily' above, but in this instance we
+                                                            // don't care about it so we ust specify 'this'.
+
 console.log(ages);
 console.log(fullJapan);
 
@@ -535,8 +546,8 @@ console.log(fullJapan);
 //         size + ' dragon that breathes ' +
 //         element + '!'
 // console.log(dragon('fluffykins')('tiny')('lightning'))
-*/
 
+*/
 /*********************************************************************
  *  Coding Challenge
  */
@@ -569,8 +580,9 @@ c) correct answer (I would use a number for this)
     this.correct = correct;
   }
   
-  // write the method in the prototype of Question so that it's not in all the instances created from the function
-  // Example of  usage when the Question is called by 'q1' then the this keyword will point to 'q1'
+  // write the methods in the prototype of Question so that it's not in all the instances created from the function
+  // Example of usage when the Question is called by 'q1' then the 'this' keyword will point to the 'q1' object
+  
   Question.prototype.displayQuestion =  function () {
     
     console.log(this.question);
@@ -589,6 +601,7 @@ c) correct answer (I would use a number for this)
   }
   
   // Now use the function constructor to create a couple of questions
+  
   var q1 = new Question('Is JavaScript the coolest programming language in the world?',
     ['Yes','No'],0);
   // 'new' creates an empty object, then it calls the Question function and sets the 'this' variable(s) of this function
@@ -600,15 +613,15 @@ c) correct answer (I would use a number for this)
   var q3 = new Question('What does best describe coding?',
     ['Boring','Hard', 'Fun','Tedious'],2);
   
-  // Store the questions in an array and select one random question
+  // Store the questions objects in an array and select one random question
   var questions = [q1, q2, q3];
   
   var n = Math.floor(Math.random() * questions.length);   // Math.floor converts the random number to an integer value
     
-    questions[n].displayQuestion();
+  questions[n].displayQuestion();
     
-    var answer = parseInt(prompt('Please select the correct answer.'));
-    questions[n].checkAnswer(answer);
+  var answer = parseInt(prompt('Please select the correct answer.'));
+  questions[n].checkAnswer(answer);
   
 })();  // Answer to question 7 is to invoke the immediate function'()'
 */
@@ -623,22 +636,22 @@ c) correct answer (I would use a number for this)
    you feel more comfortable at this point).
 11. Display the score in the console. Use yet another method for this.
 */
-
+/*
 // See Notes.txt to see what is happening here
 // -------------------------------------------
 (function() {
-    function Question(question, answers, correct) {
-        this.question = question;
+    function Question(question, answers, correct) {  // Constructor / Prototype
+        this.question = question;                    // -----------------------
         this.answers = answers;
         this.correct = correct;
     }
-    Question.prototype.displayQuestion = function() {
+    Question.prototype.displayQuestion = function() {    // adding this method to the prototype of Question
         console.log(this.question);
         for (var i = 0; i < this.answers.length; i++) {
             console.log(i + ': ' + this.answers[i]);
         }
     }
-    Question.prototype.checkAnswer = function(ans, callback) {
+    Question.prototype.checkAnswer = function(ans, callback) {  // adding this method to the prototype of Question
         var sc;
         
         if (ans === this.correct) {
@@ -651,11 +664,14 @@ c) correct answer (I would use a number for this)
         
         this.displayScore(sc);
     }
-    Question.prototype.displayScore = function(score) {
+    Question.prototype.displayScore = function(score) {          // adding this method to the prototype of Question
         console.log('Your current score is: ' + score);
         console.log('------------------------------');
     }
     
+    // each of these vars has access to the Question prototype methods defined above and are inheriting from Question
+    // object which gives them  access to the prototype of the Question methods.
+    // Creating new instances of the Question object using inheritance
     
     var q1 = new Question('Is JavaScript the coolest programming language in the world?',
                           ['Yes', 'No'], 0);
@@ -666,7 +682,7 @@ c) correct answer (I would use a number for this)
     
     var questions = [q1, q2, q3];
     
-    function score() {        // We are using the closures to keep a running total of the score
+    function score() {               // We are using the closures to keep a running total of the score
         var sc = 0;
         return function(correct) {   // Increase the score if the answer is correct and return it
             if (correct) {
@@ -677,7 +693,7 @@ c) correct answer (I would use a number for this)
     }
     
     var keepScore = score();    // This variable holds the function score(), the 'sc' variable will always be accessible
-                                // to the keepScore function.
+                                // to the keepScore expression because it resides in the Global Object
    
    
     function nextQuestion() {
@@ -686,10 +702,12 @@ c) correct answer (I would use a number for this)
         var answer = prompt('Please select the correct answer.');
         if(answer !== 'exit') {
             questions[n].checkAnswer(parseInt(answer), keepScore);
-            nextQuestion();
+            nextQuestion(); // we call the same function each time we want to continue with the game.
         }
     }
     
-    nextQuestion();  // we call the same function each time we want to continue with the game
+    nextQuestion();  // we call the same function each time we want to continue with the game, the function is
+                     // placed on top of the execution stack and removed when completed.
     
 })();
+*/
