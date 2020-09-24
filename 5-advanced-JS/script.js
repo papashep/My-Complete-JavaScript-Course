@@ -187,7 +187,7 @@ var ages = arrayCalc(years, calculateAge); // We are not calling the calculateAg
 var fullAges = arrayCalc(ages, isFullAge); // as above but for isFullAge we passing into the 'ages' array we
                                            // calculated before
 
-var rates = arrayCalc(ages, maxHeartRate); // as above
+var rates = arrayCalc(ages, maxHeartRate); // as above again passing into it the 'ages' array we calculated earlier
 
 console.log('Ages: ' + ages);
 console.log('Have they reached adult age? ' + fullAges);

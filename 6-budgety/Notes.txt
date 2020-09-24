@@ -1,0 +1,36 @@
+We will structure our code with modules.
+Modules
+-------
+    . Important aspect of any robust application's architecture.
+    . Keep the units of code for a project both cleanly separated and organised.
+    . Encapsulate some data into privacy and expose other data publicly.
+
+    First step.
+
+                UI Module                                           Data Module
+            ------------------------------                      ---------------------------------
+
+                Get input values                                    Add the new item to our data structure
+                Add the new item to the UI                          Calculate the budget
+                Update The UI
+
+
+                                                Controller Module
+                                            --------------------------
+                                                Add event handler
+
+                            (To control the app and act as a link between the other modules)
+
+    . We are going to use an extremely module pattern used in JavaScript.
+        . We are going to learn how to use the module pattern.
+        . We are going to learn about private and public data, encapsulation and separation of concerns.
+
+    . Why are we using modules:
+        . We want to keep sections of code theta related to each other inside independent and organised events.
+        . Each of these modules will have variables and functions that are private which means they are only
+          accessible inside the module, we want this so no other code can overwrite our data.
+        . Our data and code is going to be safe.
+        . We are also going to have public variables, so other functions or modules can access them, this is called
+          Data Encapsulation.
+        . Data Encapsulation allows us hide the implementation details of a specific module from the outside scope
+          so we only expose a public interface which is sometimes called an API.
