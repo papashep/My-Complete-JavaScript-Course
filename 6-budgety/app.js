@@ -58,6 +58,10 @@ var budgetController = (function () {
     addItem: function (type, des, val) {
       var newItem, ID;
       
+      // [1 2 3 4 5], next ID = 6
+      // [1 2 4 6 8], next ID = 9
+      // ID = last ID + 1
+      
       // Create new ID
       if ( data.allItems[type].length > 0 ) {
         ID = data.allItems[type][data.allItems[type].length - 1].id + 1; // Retrieves the last ID and adds 1 to it for
@@ -77,6 +81,28 @@ var budgetController = (function () {
       
       // Return the new element
       return newItem;
+      
+    },
+    
+    deleteItem: function (type, id) {
+      
+      // [1 2 4 6 8], next ID = 9
+      // data.allItems[type][id];  We cannot use this because the 'id' may not be in a sequential order so we must find
+      //                           the last 'id' so if you selected the element no '3' you would actually delete '6'.
+      // We need to create an array of all the items and find out the index of the element that we want to delete.
+      // Example if we wanted to delete item no '6' the index would be '3'.
+      
+      var ids, index;
+      
+      ids = data.allItems[type].map(function (current) {    // map creates a new array of our 'ids'
+        return current.id;   // ids = [1 2 4 6 8] now we have to find the index of the 'id = 6'
+      });
+      
+      index = ids.indexOf(id);   // returns the 'index' of the 'id = 6' which is 'index = 3'
+      
+      if ( index !== -1) {
+        data.allItems[type].splice(index, 1);  // This will delete 'index' number '3', 'id' number '6'
+      }
       
     },
     
@@ -136,7 +162,8 @@ var UIController = (function () {
     budgetLabel: '.budget__value',
     incomeLabel: '.budget__income--value',
     expensesLabel: '.budget__expenses--value',
-    percentageLabel: '.budget__expenses--percentage'
+    percentageLabel: '.budget__expenses--percentage',
+    container: '.container'
   };
   
   return {
@@ -162,7 +189,7 @@ var UIController = (function () {
       if ( type === 'inc') {
         element = DOMstrings.incomeContainer;
         
-        html = '<div class="item clearfix" id="income-%id%">' +
+        html = '<div class="item clearfix" id="inc-%id%">' +
                '<div class="item__description">%description%</div>' +
                '<div class="right clearfix">' +
                '<div class="item__value">%value%</div>' +
@@ -173,7 +200,7 @@ var UIController = (function () {
       } else if ( type === 'exp') {
         element = DOMstrings.expensesContainer;
         
-        html = '<div class="item clearfix" id="expense-%id%">' +
+        html = '<div class="item clearfix" id="exp-%id%">' +
                '<div class="item__description">%description%</div>' +
                '<div class="right clearfix">' +
                '<div class="item__value">%value%</div>' +
@@ -193,6 +220,12 @@ var UIController = (function () {
       // Insert the HTML into the DOM
       
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+    },
+    
+    deleteListItem: function (selectorID) {  // Removing elements from the DOM
+      
+      var el = document.getElementById(selectorID);
+      el.parentNode.removeChild(el);
     },
     
     clearFields: function () {
@@ -258,6 +291,8 @@ var controller = (function (budgetCtrl, UICtrl) {
         ctrlAddItem ();
       }
     });
+    // By referencing the 'DOM.container' we are using event bubbling up.
+    document.querySelector(DOM.container).addEventListener('click',ctrlDeleteItem);
   };
   
   var updateBudget = function () {
@@ -294,6 +329,37 @@ var controller = (function (budgetCtrl, UICtrl) {
       updateBudget ();
     }
 
+  };
+  
+  var ctrlDeleteItem = function (event) {      // The word 'event' could be any word
+    var itemID, splitID, type, ID;
+  
+    // Working up from the delete button in the html file, this is called event delegation
+    // 'event.target' is where the event was fired. We that traversed the DOM al the way up to the element we are
+    // interested in. (Event Delegation)
+    itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    
+    if ( itemID ) {
+      // inc-1 exp-1  as soon as we call one of these methods on a string, javascript automatically puts a wrapper
+      // around it converting it from a primitive to an object and this object has access to a lot of string methods.
+      // The same can also be done for numbers.
+      
+      splitID = itemID.split('-');  // Returns an array where the first element is before '-' and the second
+                                             // element is after the '-'
+      type = splitID[0];
+      ID = parseInt( splitID[1]);            // Convert the string to an integer
+      
+      // 1. Delete the item from the data structure.
+      budgetCtrl.deleteItem(type, ID);
+      
+      // 2. Delete the item from the UI
+      UICtrl.deleteListItem(itemID);
+      
+      // 3. Update and show the new budget
+      updateBudget();
+      
+    }
+    
   };
   
   return {
