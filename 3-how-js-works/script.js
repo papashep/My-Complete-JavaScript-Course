@@ -85,7 +85,7 @@ Code not inside a function is held inside the Global Execution Context
           of the outer function, also called the parent function.
       - Determine the value of the 'this' variable.
         - Each and every execution gets the 'this' variable and it is stored in the execution context object.
-        - In a Regular function call: te this keyword points at the global object,
+        - In a Regular function call: the 'this' keyword points at the global object,
           (the window object in the browser), this is the default.
         - In a Method call; the 'this' variable points to the object that is calling the method.
         - The 'this' keyword is not assigned a value until a function where it is defined is actually called.
@@ -126,7 +126,7 @@ function calculateAge(year) {
 
 
 // retirement(1990);       // If you move this line above the function expression you get the error:
-                          //      'retirement is not a function'.
+                           //      'retirement is not a function'.
 /*
 var retirement = function(year) {
   console.log(65 - (2016 - year));
