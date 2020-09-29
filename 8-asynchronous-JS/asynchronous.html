@@ -9,7 +9,249 @@
 <body>
     <h1>Asynchronous JavaScript</h1>
     <script>
-        
+        /*
+        // Synchronous JavaScript
+        // const second =  () => {
+        //     console.log('Second')
+        // }
+        // const first = () => {
+        //     console.log('Hey there!');
+        //     second();
+        //     console.log('The End');
+        // }
+        //
+        // first();
+
+        // Asynchronous JavaScript
+        const second =  () => {
+            setTimeout( () => {
+                console.log('Async Hey there!');
+            }, 2000)                        // Timeout runs for two seconds
+        }
+        const first = () => {
+            console.log('Hey there!');
+            second();                       // Waits for two seconds, but the rest of the function continues
+            console.log('The End');
+        }
+
+        first();
+
+        // We can use call back function to enable an asynchronous section of code that does not block the rest of
+        // code, say load an image file that make time to run:
+        //
+        //      const image = document.getElementById('img').src;
+        //
+        //      processLargeImage(image, () => {
+        //          console.log('Image processed!');
+        //      });
+        */
+
+        /***************************************************************************************
+         *  THe Old Way ASYNCHRONOUS JAVASCRIPT WITH CALLBACKS  -  Call Back hell
+         *
+         *  We are going to simulate loading data from a web server
+         */
+        /*
+        function getRecipe () {                     // Call back hell
+
+            setTimeout(() => {
+                const recipeID = [523, 883, 432, 974];
+                console.log(recipeID);
+
+                setTimeout(id => {
+                    const recipe = {
+                        title: 'Fresh tomato pasta',
+                        publisher: 'Jonas'
+                    }
+                    console.log(`${id}: ${recipe.title}`);
+
+                    setTimeout(publisher => {
+                        const recipe2 = {
+                            title: 'Italian Pizza',
+                            publisher: 'Melvyn'
+                        }
+                        console.log(recipe2);
+                    }, 3500, recipe2.publisher);
+
+                }, 3500, recipeID[2]);
+
+            }, 3500);
+        }
+        getRecipe();
+        */
+
+
+        /***************************************************************************************
+         *  FROM CALLBACK HELL TO PROMISES
+         *
+         * A promise: (Asynchronous)
+         *  - Object that keeps track about whether a certain event has happened or not.
+         *  - Determines what happens after the event has happened.
+         *  - By event we mean a timer event or data coming back from a server.
+         *  - Implements the concept of a future value that we are expecting.
+         *  - A promise can have different states;
+         *      - Before the event has happened the promise is PENDING
+         *      - After the event handling the promise is called SETTLES/RESOLVED
+         *      - If the promise was successful then the promise is FULFILLED
+         *      - If there was an error then the promise is REJECTED
+         *  - We can produce and consume promises:
+         *      - When we produce a promise, we create a new promise and send the result using that promise.
+         *      - When we consume a promise, we can use callback function for fulfilment and for rejection of our
+         *        promise.
+         *  - We may generate more code but it is easier to maintain.
+         */
+        /*
+        // The resolve inherits two methods the 'catch' and 'then', timeout never fails so we don't need REJECT
+        const getIDs = new Promise( (resolve, reject) => {              // We pass in to it the executor
+                                                                        // Ok we call the resolve function
+                                                                        // Failed we call the reject function
+            // To fake getting data using asynchronous code
+            setTimeout( () => {
+                resolve([523, 883, 432, 974]);                          // Returned value from the resolve
+            }, 1500);
+        });
+
+        // getIDs.then(IDs => {            // callback function - IDs is the result of the successful promise
+        //     console.log(IDs);
+        // });
+
+        // Produce promises.
+        const getRecipe = recID => {
+            return new Promise( (resolve, reject) => {
+                setTimeout (ID => {
+                    const recipe = {
+                        title: 'Fresh tomato pasta',
+                        publisher: 'Jonas'
+                    };
+                    resolve (`${ ID }: ${ recipe.title }`);
+                    console.log(`${recipe.publisher} published this recipe: ${recipe.title}`);
+                }, 1500, recID);
+            });
+        };
+
+        const getRelated = publisher => {
+            return new Promise( (resolve, reject) => {
+                setTimeout(pub => {
+                  const recipe = {
+                    title: 'Italian Pizza',
+                    publisher: 'Melvyn'
+                  };
+                  resolve (`${pub} published this recipe: ${recipe.title}`);
+                },1500, publisher);
+            });
+        };
+
+        // How to consume the promise
+
+        // getIDs
+        //     .then ( IDs => {                // callback function - IDs is the result of the successful promise
+        //         console.log (IDs);
+        //         return getRecipe (IDs[2]);
+        //     })
+        //     .then ( recipe => {          // to handle the result of promise (fulfillment)
+        //         return getRelated('Melvyn');
+        //         console.log(recipe);
+        //     })
+        //     .then (recipe => {
+        //         console.log(recipe);
+        //     })
+        //     .catch (error => {       // the callback to use when the promise is rejected
+        //         console.log('Error!!');
+        //     });
+        */
+        /***************************************************************************************
+         *  ASYNC AWAIT
+         *
+         * This was deigned for us to consume promises without all the callback functions
+         * The 'await' can only be used inside an async function.
+         ***************************************************************************************
+         */
+        /*
+        async function getRecipesAW() {       // Runs in the background and we can have one or more await(s)
+            const IDs = await getIDs;         // returns the promise 'getIDs' result to 'IDs'
+                                              // 'await' stops the code from executing until the promise is fulfilled.
+                                              // When fulfilled 'IDs' will contain the array in the 'getIDS' promise
+            console.log(IDs);
+            const recipe = await getRecipe(IDs [2]);
+            console.log(recipe);
+            const related = await getRelated('Melvyn');
+            console.log(related);
+
+            return recipe;
+        }
+        getRecipesAW().then(result => console.log(`${result} is the best ever`));
+       */
+        /*************************************************************************************************
+         * ASYNCHRONOUS JAVASCRIPT:
+         * PROMISES, ASYN/AWAIT AND AJAX
+         *
+         * LECTURE: AJAX AND API'S
+         *
+         * AJAX stands for Asynchronous Javascript And XML
+         *
+         * It allows us to asynchronously communicate with remote servers.
+         * Lets say we have our JavaScript running in the browser (client) and we want the App to
+         * get some data from our Server, without having to reload the enter page
+         * With AJAX we can simple do an HTTP request (get, post, etc) to our server (API) this
+         * will then send back a response containing the data that we requested.
+         * This all happens in the background, just the way we did before using the setTimeout
+         * function.
+         * This also works for sending data to the server doing a post request rather than a get request
+         *
+         * API's stands for Application Programming Interface
+         * It's basically a piece of software that allows applications to talk to each other
+         * The API is not the server but an application running on the server that receives requests and responds.
+         * There are two type of API's that you can run in JavaScript:
+         *  -   Your own API's
+         *  -   3rd party API's ie send email or SMS, maybe you want weather data etc
+         * ************************************************************************************************
+         *
+         */
+        // Turn in chrome Cross Domain - CORS
+        function getWeather(woeid) {        // 'woeid' stands for 'where on earth id'
+            // fetch is an AJAX command
+            fetch (`https://www.metaweather.com/api/location/${woeid}/`) // Gets our data and returns a promise
+                .then (result => {
+                    // console.log (result);
+                    return result.json ();    // The result is in json format so we need to convert it, returns a promise
+                })
+                .then (data => {
+                    // console.log(data);    // All the data
+                    const today = data.consolidated_weather[0];  // 5 day forecast
+                    console.log (`Temperatures today in ${ data.title } stay between ${ today.min_temp }` +
+                    ` and ${ today.max_temp }.`);
+                })
+                .catch (error => {
+                    console.log (error);
+                });
+        }
+        getWeather(2487956);    // San Fransisco
+        getWeather(44418);      // London
+        getWeather(44418568);   // Not a valid Id so we get the 'Error!!! in the catch statements, the program continues
+
+        // Now doing the code using async await
+        async function getWeatherAW (woeid) {
+            try {  // try catch staement
+            const result = await fetch (`https://www.metaweather.com/api/location/${woeid}/`);
+            const data = await result.json();
+            const tomorrow = data.consolidated_weather[1];
+            console.log (`Temperatures tomorrow in ${ data.title } stay between ${ tomorrow.min_temp }` +
+                                                                          ` and ${ tomorrow.max_temp }.`);
+            return data;
+
+            } catch ( error ) {
+                console.log(error);
+            }
+        }
+        getWeatherAW(2487956);  // San Fransisco
+        let dataLondon;
+        getWeatherAW(44418).then(data =>  {    // London
+            dataLondon = data
+            console.log(dataLondon);
+        });
+
+        getWeatherAW(44418568); // Not a valid Id so we get the 'Error!!! in the catch statements, the program continues
+
     </script>
 </body>
 </html>
