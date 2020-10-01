@@ -1,0 +1,36 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "npmforkify project",
+  "main": "index.js",
+  "dependencies": {
+    "ansi-styles": "^4.2.1",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "braces": "^3.0.2",
+    "color-name": "^1.1.4",
+    "eslint": "^7.9.0",
+    "eslint-plugin-react": "^7.20.6",
+    "jquery": "^3.5.1",
+    "table": "^6.0.3",
+    "write": "^2.0.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/papashep/My-Complete-JavaScript-Course.git"
+  },
+  "keywords": [],
+  "author": "Melvyn Shepherd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/papashep/My-Complete-JavaScript-Course/issues"
+  },
+  "homepage": "https://github.com/papashep/My-Complete-JavaScript-Course#readme"
+}
