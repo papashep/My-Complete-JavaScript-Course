@@ -5,13 +5,16 @@
   "main": "index.js",
   "dependencies": {
     "ansi-styles": "^4.2.1",
+    "axios": "^0.20.0",
     "braces": "^3.0.2",
     "color-name": "^1.1.4",
     "core-js": "^3.6.5",
     "eslint": "^7.9.0",
     "eslint-plugin-react": "^7.20.6",
+    "fractional": "^1.0.0",
     "regenerator-runtime": "^0.13.7",
     "table": "^6.0.3",
+    "uniqid": "^5.2.0",
     "write": "^2.0.0"
   },
   "devDependencies": {

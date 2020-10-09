@@ -9,6 +9,11 @@ module.exports = {
         filename: 'js/bundle.js'
     },
     
+    watch: true,
+    watchOptions: {
+        ignored: /node_modules/
+    },
+    
     devServer: {
         contentBase: './dist'
     },
