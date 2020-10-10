@@ -9,10 +9,7 @@ module.exports = {
         filename: 'js/bundle.js'
     },
     
-    watch: true,
-    watchOptions: {
-        ignored: /node_modules/
-    },
+    devtool: 'inline-source-map',
     
     devServer: {
         contentBase: './dist'
