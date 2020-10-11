@@ -94,6 +94,7 @@ export default class Recipe {
             
             return objIng;
         });
+        
         this.ingredients = newIngredients;
     }
     
@@ -106,6 +107,6 @@ export default class Recipe {
             ing.count *= (newServings / this.servings);
         });
         
-        this.servings = newServings;
+        this.servings = newServings;  // This is where the servings gets updated
     }
 }
