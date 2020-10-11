@@ -17,7 +17,7 @@ const formatCount = count => {
             const fr = new Fraction(newCount);
             return `${fr.numerator}/${fr.denominator}`;
         } else {
-            const fr = new Fraction(newCount - int);   // remove the int '2' leaving 0.5) --> 1/2
+            const fr = new Fraction(newCount - int);             // remove the int '2' leaving 0.5) --> 1/2
             return `${int} ${fr.numerator}/${fr.denominator}`;   // add the int back in --> 2 1/2
         }
     }
