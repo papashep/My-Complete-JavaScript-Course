@@ -16,6 +16,7 @@
 
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import { elements, renderLoader,  clearLoader} from './views/base';
@@ -84,7 +85,7 @@ elements.searchResPages.addEventListener('click', e => {
 // Add to the Global Object
 // ------------------------
 // When you select a recipe it gets the recipe Id which is prefixed with an '#' character so on the address line of
-// your browser it will be localhost:8080/?#46956 for example. So when you select a different recipe this '#' number
+// your browser it will be localhost:8080/?#35478 for example. So when you select a different recipe this '#' number
 // will change and this is where 'hashchange' on the event listener comes into play.
 // Replaced two event listeners with one
 // window.addEventListener('hashchange', controlRecipe);
@@ -108,7 +109,7 @@ const controlRecipe = async () => {
         try {
             // Get recipe data and parse ingredients
             await state.recipe.getRecipe();
-            console.log(state.recipe.ingredients);
+            // console.log(state.recipe.ingredients);
             state.recipe.parseIngredients();
             
             // Calculate servings and time
@@ -142,5 +143,7 @@ elements.recipe.addEventListener('click', e => {
         state.recipe.updateServings( 'inc' );
         recipeView.updateServingsIngredients(state.recipe);
     }
-    console.log(state.recipe);
+    // console.log(state.recipe);
 });
+
+window.l = new List();
