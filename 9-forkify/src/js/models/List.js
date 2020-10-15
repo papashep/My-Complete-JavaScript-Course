@@ -2,7 +2,6 @@ import uniqid from 'uniqid';
 
 /**
  * We have created our own API for updating the list
-
  */
 
 export default class List {
@@ -23,7 +22,7 @@ export default class List {
 
     deleteItem(id) {
         const index = this.items.findIndex(el => el.id === id);
-        // [2,4,8] splice(1,1) -> returne 4, original array is [2,8]
+        // [2,4,8] splice(1,1) -> returns 4, original array is [2,8]
         // [2,4,8] slice (1,2) -> returns 4, original array is [2,4,8] does not mutate the array
         this.items.splice(index, 1);   // Only want to remove 1 element
     }
