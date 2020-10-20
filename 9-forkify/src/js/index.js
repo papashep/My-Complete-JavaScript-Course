@@ -35,8 +35,9 @@ import { elements, renderLoader,  clearLoader} from './views/base';
  */
 
 
-// window.state = state;       // For testing purposes only
 const state = {};
+
+// window.state = state;       // For testing purposes only
 
 /** SEARCH CONTROLLER
  *
@@ -124,7 +125,10 @@ const controlRecipe = async () => {
             
             // Render recipe
             clearLoader();
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+            );
             
         } catch (err) {
             console.log(err);
@@ -215,7 +219,7 @@ window.addEventListener('load', () => {
     // Toggle like menu button
     likesView.toggleLikeMenu(state.likes.getNumLikes());
     
-    // Render the existing likes
+    // Render the existing likes, state.likes.likes to call the likes the array
     state.likes.likes.forEach(like => likesView.renderLike(like));
 });
 
@@ -240,6 +244,7 @@ elements.recipe.addEventListener('click', e => {
         // Like controller
         controlLike();
     }
-    // console.log(state.recipe);
     
 });
+
+// console.log(window.state);

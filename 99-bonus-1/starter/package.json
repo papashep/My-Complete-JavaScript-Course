@@ -1,0 +1,9 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "dependencies": {
+  },
+  "scripts": {
+    "start": "nodemon"
+  }
+}
